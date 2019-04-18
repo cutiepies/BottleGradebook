@@ -82,4 +82,13 @@ def testtest():
     grades = list(db.assignments.find())
     return template('show_assignments', assignments = grades)
 
+@route('/teacher')
+def testtest():
+    db = client.gradebook # database gradebook
+    #mycol.find({},{ "_id": 0, "name": 1, "address": 1 })
+    classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
+    print(classes)
+    #return template('show_assignments', assignments = grades)
+
+
 run(host='localhost', port=8080, debug=True)
