@@ -77,17 +77,28 @@ def user_profile(username):
         user=user)
 
 @route('/test')
-def testtest():
+def testSearchAssignmentGrades():
     db = client.gradebook # database gradebook
     grades = list(db.assignments.find())
     return template('show_assignments', assignments = grades)
 
+
+@route('/testClassInfo')
+def testClassInfo():
+ db = client.gradebook # database gradebook
+    classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
+    classInfo = list(db.classes.find({"classes": classes},{"teacher": 1, "courseTitle":1, "courseID":1}))
+    print(classes)
+    print(classInfo)
+
+
+
 @route('/teacher')
 def testtest():
     db = client.gradebook # database gradebook
-    #mycol.find({},{ "_id": 0, "name": 1, "address": 1 })
     classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
     print(classes)
+
     #return template('show_assignments', assignments = grades)
 
 
