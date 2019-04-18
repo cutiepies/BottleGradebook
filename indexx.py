@@ -2,6 +2,9 @@
 from bottle import route, run, HTTPResponse, template
 from pymongo import MongoClient
 import json
+from bottle.ext.mongo import MongoPlugin
+
+from bson.json_util import dumps
 
 client = MongoClient('mongodb+srv://user:user123@cluster0-7i1kc.mongodb.net/test?retryWrites=true')
 @route('/login') # or @route('/login')
@@ -15,12 +18,14 @@ def login():
         '''
 @route('/login', method='POST') #@post('/login') # or 
 def do_login():
-    username = request.forms.get('email')
+    username = request.forms.get('username')
     password = request.forms.get('password')
     if check_login(username, password):
         return "<p>Your login information was correct.</p>"
     else:
         return "<p>Login failed.</p>"
+    
+    
     
 @route('/students')
 def getstudents():
@@ -44,9 +49,37 @@ def getassignments():
     asn = list(db.assignments.find({}, {'_id': 0}))
 
     if asn:
-
-        return json.dumps(asn)
+                return template('show_assignments', assignments=asn)
     else: 
-        raise HTTPResponse(status=204)
+        return HTTPResponse(status=204)
+
+ #       return json.dumps(asn)
+   # else: 
+ #       raise HTTPResponse(status=204)
+ 
+@route('/grades')
+def getgrades():
+    db = client.gradebook
+    grades = list(db.assignments.find({}, {'grades': 0}))
+   
+    
+    
+    
+    if grades:
+            return template('show_grades', assignments = grades)
+    else:
+            return HTTPResponse(status=204)
+        
+@route("/user/<username>")
+def user_profile(username):
+    user = mongo.db.users.find_one_or_404({"_id": username})
+    return template('user_profile',
+        user=user)
+
+@route('/test')
+def testtest():
+    db = client.gradebook # database gradebook
+    grades = list(db.assignments.find())
+    return template('show_assignments', assignments = grades)
 
 run(host='localhost', port=8080, debug=True)
