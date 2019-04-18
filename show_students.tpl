@@ -12,20 +12,20 @@
         <tr>
             <th>Student ID: </th>
             <th>Email</th>
+          
             <th>Name</th>
             <th>DOB</th>
             <th>Year</th>
             <th>Major</th>
             <th>Courses</th>
-            
-            
+
+
         </tr>
-        % for students in gradebook:
+        % for students in students:
         <tr>
             <td>{{students['studentID']}}</td>
             <td>{{students['email']}}</td>
-            <td>{{students['login']}}</td>
-            <td>{{students['password']}}</td>
+
             <td>{{students['name']}}</td>
             <td>{{students['dob']}}</td>
             <td>{{students['year']}}</td>
