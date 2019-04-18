@@ -79,7 +79,8 @@ def user_profile(username):
 @route('/test')
 def testSearchAssignmentGrades():
     db = client.gradebook # database gradebook
-    grades = list(db.assignments.find())
+    #need to pass username into here to get the username/studentID for the assignments
+    grades = list(db.assignments.find({username}))#'studentID':'ak7221os'}))
     return template('show_assignments', assignments = grades)
 
 
@@ -95,11 +96,16 @@ def testClassInfo():
 
 @route('/teacher')
 def testtest():
+
     db = client.gradebook # database gradebook
     classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
     print(classes)
 
     #return template('show_assignments', assignments = grades)
-
+def checklogin(username, password):
+    
+    print(username)
+    
+    
 
 run(host='localhost', port=8080, debug=True)
