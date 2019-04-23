@@ -1,7 +1,7 @@
 
-from bottle import route, run, HTTPResponse, template
+from bottle import route, run, HTTPResponse, template, request
 from pymongo import MongoClient
-import json
+import json, requests
 from bottle.ext.mongo import MongoPlugin
 
 from bson.json_util import dumps
@@ -9,19 +9,23 @@ from bson.json_util import dumps
 client = MongoClient('mongodb+srv://user:user123@cluster0-7i1kc.mongodb.net/test?retryWrites=true')
 @route('/login') # or @route('/login')
 def login():
-    return 'Welcome to Gradebook. Please login with email to proceed!''''
+    return 'Welcome to Gradebook. Please login with your studentID to proceed!''''
     <form action="/login" method="post">
-            Email: <input name="email" type="text" />
+            StudentID: <input name="email" type="text" />
             Password: <input name="password" type="password" />
             <input value="Login" type="submit" />
         </form>
         '''
 @route('/login', method='POST') #@post('/login') # or 
 def do_login():
+    db = client.gradebook
     username = request.forms.get('username')
     password = request.forms.get('password')
-    if check_login(username, password):
-        return "<p>Your login information was correct.</p>"
+    enteredUser = list(db.students.find({"studentID": username}, {"studentID": 1}))
+    print(enteredUser)
+    if username == enteredUser:
+    #if check_login(username, password):
+        return "<p>Your login information was correct.</p>", redirect(url_for('classes'))
     else:
         return "<p>Login failed.</p>"
     
@@ -87,10 +91,10 @@ def testSearchAssignmentGrades():
 @route('/testClassInfo')
 def testClassInfo():
  db = client.gradebook # database gradebook
-    classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
-    classInfo = list(db.classes.find({"classes": classes},{"teacher": 1, "courseTitle":1, "courseID":1}))
-    print(classes)
-    print(classInfo)
+ #   classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
+ #   classInfo = list(db.classes.find({"classes": classes},{"teacher": 1, "courseTitle":1, "courseID":1}))
+ #  print(classes)
+ #   print(classInfo)
 
 
 
