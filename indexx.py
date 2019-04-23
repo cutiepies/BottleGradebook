@@ -31,7 +31,7 @@ def do_login():
 def getstudents():
 
     db = client.gradebook
-    students = list(db.students.find({}, {'_id': 0}))
+    students = list(db.students.find({}, {'studentID': "ak7221os"}))
 
     if students:
 
@@ -79,33 +79,32 @@ def user_profile(username):
 @route('/test')
 def testSearchAssignmentGrades():
     db = client.gradebook # database gradebook
-    #need to pass username into here to get the username/studentID for the assignments
-    grades = list(db.assignments.find({username}))#'studentID':'ak7221os'}))
+    grades = list(db.assignments.find())
     return template('show_assignments', assignments = grades)
 
 
 @route('/testClassInfo')
 def testClassInfo():
+    #pull classes from whoever logged in, and then display the class info for those classes
+    #find how to join two collections
+    #or use for loop to find.
  db = client.gradebook # database gradebook
-    classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
-    classInfo = list(db.classes.find({"classes": classes},{"teacher": 1, "courseTitle":1, "courseID":1}))
-    print(classes)
-    print(classInfo)
+
+    
+#    classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
+#    classInfo = list(db.classes.find({"classes": classes},{"teacher": 1, "courseTitle":1, "courseID":1}))
+#    print(classes)
+#    print(classInfo)
 
 
 
 @route('/teacher')
 def testtest():
-
     db = client.gradebook # database gradebook
     classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
     print(classes)
 
     #return template('show_assignments', assignments = grades)
-def checklogin(username, password):
-    
-    print(username)
-    
-    
+
 
 run(host='localhost', port=8080, debug=True)
