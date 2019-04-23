@@ -1,5 +1,5 @@
 
-from bottle import route, run, HTTPResponse, template, request
+from bottle import route, run, HTTPResponse, template, request, get, redirect
 from pymongo import MongoClient
 import json, requests
 from bottle.ext.mongo import MongoPlugin
@@ -11,42 +11,46 @@ client = MongoClient('mongodb+srv://user:user123@cluster0-7i1kc.mongodb.net/test
 def login():
     return 'Welcome to Gradebook. Please login with your studentID to proceed!''''
     <form action="/login" method="post">
-            StudentID: <input name="email" type="text" />
+            StudentID: <input name="studentID" type="text" />
             Password: <input name="password" type="password" />
             <input value="Login" type="submit" />
         </form>
         '''
-@route('/login', method='POST') #@post('/login') # or
+@route('/login', method='POST') #@post('/login') # or 
 def do_login():
     db = client.gradebook
-    username = request.forms.get('username')
+    username = request.forms.get('studentID')
+    print(username)
     password = request.forms.get('password')
-    enteredUser = list(db.students.find({"studentID": username}, {"studentID": 1}))
+    enteredUser = db.students.find_one({"studentID": username})
     print(enteredUser)
-    if username == enteredUser:
+    if enteredUser is not None:
     #if check_login(username, password):
-        return "<p>Your login information was correct.</p>", redirect(url_for('classes'))
+        return "<p>Your login information was correct.</p>", redirect('/students')
     else:
         return "<p>Login failed.</p>"
-
-
-
+    
+#@get('/login')
+#def getusername():
+ #   username = request.query.username
+ #   print(username)
+    
 @route('/students')
 def getstudents():
 
     db = client.gradebook
-    students = list(db.students.find({}, {'studentID': "ak7221os"}))
+    students = list(db.students.find({}, {'_id': 0}))
 
     if students:
 
 
         return template('show_students', students=students)
-    else:
+    else: 
         return HTTPResponse(status=204)
         #return json.dumps(students)
- #   else:
+ #   else: 
  #       raise HTTPResponse(status=204)
-@route('/assignments')
+@route('/assignments')    
 def getassignments():
 
     db = client.gradebook
@@ -54,26 +58,26 @@ def getassignments():
 
     if asn:
                 return template('show_assignments', assignments=asn)
-    else:
+    else: 
         return HTTPResponse(status=204)
 
  #       return json.dumps(asn)
-   # else:
+   # else: 
  #       raise HTTPResponse(status=204)
-
+ 
 @route('/grades')
 def getgrades():
     db = client.gradebook
     grades = list(db.assignments.find({}, {'grades': 0}))
-
-
-
-
+   
+    
+    
+    
     if grades:
             return template('show_grades', assignments = grades)
     else:
             return HTTPResponse(status=204)
-
+        
 @route("/user/<username>")
 def user_profile(username):
     user = mongo.db.users.find_one_or_404({"_id": username})
@@ -83,15 +87,13 @@ def user_profile(username):
 @route('/test')
 def testSearchAssignmentGrades():
     db = client.gradebook # database gradebook
-    grades = list(db.assignments.find())
+    #need to pass username into here to get the username/studentID for the assignments
+    grades = list(db.assignments.find({username}))#'studentID':'ak7221os'}))
     return template('show_assignments', assignments = grades)
 
 
 @route('/testClassInfo')
 def testClassInfo():
-    #pull classes from whoever logged in, and then display the class info for those classes
-    #find how to join two collections
-    #or use for loop to find.
  db = client.gradebook # database gradebook
  #   classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
  #   classInfo = list(db.classes.find({"classes": classes},{"teacher": 1, "courseTitle":1, "courseID":1}))
@@ -102,11 +104,16 @@ def testClassInfo():
 
 @route('/teacher')
 def testtest():
+
     db = client.gradebook # database gradebook
     classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
     print(classes)
 
     #return template('show_assignments', assignments = grades)
-
+def checklogin(username, password):
+    
+    print(username)
+    
+    
 
 run(host='localhost', port=8080, debug=True)

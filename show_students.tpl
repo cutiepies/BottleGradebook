@@ -12,7 +12,7 @@
         <tr>
             <th>Student ID: </th>
             <th>Email</th>
-          
+
             <th>Name</th>
             <th>DOB</th>
             <th>Year</th>
@@ -24,7 +24,7 @@
         % for students in students:
         <tr>
             <td>{{students['studentID']}}</td>
-<!--            <td>{{students['email']}}</td>-->
+          <td>{{students['email']}}</td>
 
             <td>{{students['name']}}</td>
             <td>{{students['dob']}}</td>
