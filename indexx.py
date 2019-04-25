@@ -22,9 +22,9 @@ def do_login():
     username = request.forms.get('studentID')
     print(username)
     password = request.forms.get('password')
-    enteredUser = db.students.find_one({"studentID": username})
+    enteredUser = db.students.find_one({"login" :{"studentID": username, "password": password}})
     print(enteredUser)
-    if enteredUser is not None:
+    if enteredUser is not None :
     #if check_login(username, password):
         return "<p>Your login information was correct.</p>", redirect('/students')
     else:

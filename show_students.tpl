@@ -29,7 +29,7 @@
             <td>{{students['name']}}</td>
             <td>{{students['dob']}}</td>
             <td>{{students['year']}}</td>
-            <td>{{students['major']}}</td>
+            <td>{{students['major']}}</td>        
             <td>{{students['classes']}}</td>
         </tr>
         % end
