@@ -31,7 +31,7 @@
             <td>{{students['year']}}</td>
             <td>{{students['major']}}</td>
             % for cl in students['classes']:
-            <td><a href="">{{cl}}</a></td>
+            <td><a href="http://localhost:8080/studentClassInfo">{{cl}}</a></td>
             % end
         </tr>
         % end
