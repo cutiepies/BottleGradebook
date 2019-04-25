@@ -27,25 +27,25 @@
 
 
     </table>
-
+<!-- start of assignments -->
     <table>
 
         <tr>
 
-            <th>Professor</th>
-            <th>Course</th>
-            <th>ID</th>
+          <th>Student ID</th>
+          <th>Assignment</th>
+          <th>Grade</th>
 
 
 
         </tr>
-       % for assignments in assignments:-->
+        % for assignments in assignments:
         <tr>
-            <td>{{classes['teacher']}}</td>
-            <td>{{classes['courseTitle']}}</td>
-            <td>{{classes['courseID']}}</td>
+            <td>{{assignments['studentID']}}</td>
+            <td>{{assignments['assignmentID']}}</td>
+            <td>{{assignments['grade']}}</td>
         </tr>
-
+        % end
 
     </table>
 

@@ -5,7 +5,7 @@ import json, requests
 from bottle.ext.mongo import MongoPlugin
 
 from bson.json_util import dumps
-
+##username =''
 client = MongoClient('mongodb+srv://user:user123@cluster0-7i1kc.mongodb.net/test?retryWrites=true')
 @route('/login') # or @route('/login')
 def login():
@@ -20,13 +20,14 @@ def login():
 def do_login():
     db = client.gradebook
     username = request.forms.get('studentID')
-    print(username)
     password = request.forms.get('password')
+    username2 = username
+    print('This is username2', username2)
     enteredUser = db.students.find_one({"login" :{"studentID": username, "password": password}})
     print(enteredUser)
     if enteredUser is not None :
     #if check_login(username, password):
-        return "<p>Your login information was correct.</p>", redirect('/students')
+        return "<p>Your login information was correct.</p>", redirect('/students'), username2
     else:
         return "<p>Login failed.</p>"
     
@@ -34,12 +35,16 @@ def do_login():
 #def getusername():
  #   username = request.query.username
  #   print(username)
+
     
 @route('/students')
 def getstudents():
-
+    username3= do_login()
+    print(username3)
+#@get('/login')
+    
     db = client.gradebook
-    students = list(db.students.find({}, {'_id': 0}))
+    students = list(db.students.find({'studentID':username3}, {'_id': 0}))
 
     if students:
 
@@ -97,8 +102,11 @@ def studentClassInfo():
     db = client.gradebook # database gradebook
     classInfo = db.classes.find_one({"courseID": "Chem201-01-F2018"},{"teacher": 1, "courseTitle":1, "courseID":1})
     #need to show assignment info for that class
-    assignmentInfo = db.assignments.find({"courseID": "Chem201-01-F2018"}, {})
+    assignmentList = list(db.classes.find({"assignmentList" : {}}))
+    assignmentInfo = list(db.assignments.find({}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
     print(classInfo)
+    print(assignmentList)
+    print(assignmentInfo)
     return template('show_classes', classes = classInfo, assignments = assignmentInfo)
 
 
