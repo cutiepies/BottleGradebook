@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class</title>
+</head>
+<body>
+
+    <table>
+
+        <tr>
+
+            <th>Professor</th>
+            <th>Course</th>
+            <th>ID</th>
+
+
+
+        </tr>
+      <!--  % for classes in classes:-->
+        <tr>
+            <td>{{classes['teacher']}}</td>
+            <td>{{classes['courseTitle']}}</td>
+            <td>{{classes['courseID']}}</td>
+        </tr>
+
+
+    </table>
+
+    <table>
+
+        <tr>
+
+            <th>Professor</th>
+            <th>Course</th>
+            <th>ID</th>
+
+
+
+        </tr>
+       % for assignments in assignments:-->
+        <tr>
+            <td>{{classes['teacher']}}</td>
+            <td>{{classes['courseTitle']}}</td>
+            <td>{{classes['courseID']}}</td>
+        </tr>
+
+
+    </table>
+
+</body>
+</html>

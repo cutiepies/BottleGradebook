@@ -88,7 +88,7 @@ def user_profile(username):
 def testSearchAssignmentGrades():
     db = client.gradebook # database gradebook
     #need to pass username into here to get the username/studentID for the assignments
-    grades = list(db.assignments.find({username}))#'studentID':'ak7221os'}))
+    grades = list(db.assignments.find({'studentID'}))#'studentID':'ak7221os'}))
     return template('show_assignments', assignments = grades)
 
 
@@ -96,7 +96,10 @@ def testSearchAssignmentGrades():
 def studentClassInfo():
     db = client.gradebook # database gradebook
     classInfo = db.classes.find_one({"courseID": "Chem201-01-F2018"},{"teacher": 1, "courseTitle":1, "courseID":1})
+    #need to show assignment info for that class
+    assignmentInfo = db.assignments.find({"courseID": "Chem201-01-F2018"}, {})
     print(classInfo)
+    return template('show_classes', classes = classInfo, assignments = assignmentInfo)
 
 
 
