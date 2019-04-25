@@ -29,8 +29,10 @@
             <td>{{students['name']}}</td>
             <td>{{students['dob']}}</td>
             <td>{{students['year']}}</td>
-            <td>{{students['major']}}</td>        
-            <td>{{students['classes']}}</td>
+            <td>{{students['major']}}</td>
+            % for cl in students['classes']:
+            <td><a href="">{{cl}}</a></td>
+            % end
         </tr>
         % end
 
