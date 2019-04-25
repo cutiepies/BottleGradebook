@@ -92,13 +92,11 @@ def testSearchAssignmentGrades():
     return template('show_assignments', assignments = grades)
 
 
-@route('/testClassInfo')
-def testClassInfo():
- db = client.gradebook # database gradebook
- #   classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
- #   classInfo = list(db.classes.find({"classes": classes},{"teacher": 1, "courseTitle":1, "courseID":1}))
- #  print(classes)
- #   print(classInfo)
+@route('/studentClassInfo')
+def studentClassInfo():
+    db = client.gradebook # database gradebook
+    classInfo = db.classes.find_one({"courseID": "Chem201-01-F2018"},{"teacher": 1, "courseTitle":1, "courseID":1})
+    print(classInfo)
 
 
 
