@@ -26,10 +26,15 @@ def do_login():
     username2 = username
     print('This is username2', username2)
     enteredUser = db.students.find_one({"login" :{"studentID": username, "password": password}})
+    enteredUser2 = db.teacher.find_one({"login" :{"teacherID": username, "password": password}})
     print(enteredUser)
+    print(enteredUser2)
+    #check if the user was found as a student, or teacher
     if enteredUser is not None :
     #if check_login(username, password):
         return "<p>Your login information was correct.</p>", redirect('/students')
+    elif enteredUser2 is not None:
+        return "<p>Your login information was correct.</p>", redirect('/teacher')
     else:
         return "<p>Login failed.</p>"
     
@@ -112,19 +117,22 @@ def studentClassInfo():
     return template('show_classes', classes = classInfo, assignments = assignmentInfo)
 
 
-
+#View teacher's classes and some info.
+#when teacher logs in - they can view their classes
+# and will be able to click on a class to view and edit assignments
 @route('/teacher')
-def testtest():
-
-    db = client.gradebook # database gradebook
-    classes = list(db.teacher.find({"teacherID": "mm1234"},{"teacherID": 1, "name":1, "classes":1}))
-    print(classes)
-
-    #return template('show_assignments', assignments = grades)
-def checklogin(username, password):
-    
+def teacherView():
     print(username)
-    
+    db = client.gradebook # database gradebook
+    teachers = list(db.teacher.find({"teacherID": username},{'_id': 0}))
+    print(teachers)
+
+    if teachers:
+        return template('show_teachers', teachers=teachers)
+    else: 
+        return HTTPResponse(status=204)
+
+
     
 
 run(host='localhost', port=8080, debug=True)
