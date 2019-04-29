@@ -5,7 +5,8 @@ import json, requests
 from bottle.ext.mongo import MongoPlugin
 
 from bson.json_util import dumps
-##username =''
+username =''
+
 client = MongoClient('mongodb+srv://user:user123@cluster0-7i1kc.mongodb.net/test?retryWrites=true')
 @route('/login') # or @route('/login')
 def login():
@@ -19,6 +20,7 @@ def login():
 @route('/login', method='POST') #@post('/login') # or 
 def do_login():
     db = client.gradebook
+    global username
     username = request.forms.get('studentID')
     password = request.forms.get('password')
     username2 = username
@@ -27,7 +29,7 @@ def do_login():
     print(enteredUser)
     if enteredUser is not None :
     #if check_login(username, password):
-        return "<p>Your login information was correct.</p>", redirect('/students'), username2
+        return "<p>Your login information was correct.</p>", redirect('/students')
     else:
         return "<p>Login failed.</p>"
     
@@ -39,8 +41,8 @@ def do_login():
     
 @route('/students')
 def getstudents():
-    username3= do_login()
-    print(username3)
+    username3= username
+    print('This is username3', username3)
 #@get('/login')
     
     db = client.gradebook
@@ -96,17 +98,17 @@ def testSearchAssignmentGrades():
     grades = list(db.assignments.find({'studentID'}))#'studentID':'ak7221os'}))
     return template('show_assignments', assignments = grades)
 
-
+#Displays selected* class info and the student's assignments + grades
 @route('/studentClassInfo')
 def studentClassInfo():
     db = client.gradebook # database gradebook
     classInfo = db.classes.find_one({"courseID": "Chem201-01-F2018"},{"teacher": 1, "courseTitle":1, "courseID":1})
     #need to show assignment info for that class
     assignmentList = list(db.classes.find({"assignmentList" : {}}))
-    assignmentInfo = list(db.assignments.find({}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
-    print(classInfo)
-    print(assignmentList)
-    print(assignmentInfo)
+    assignmentInfo = list(db.assignments.find({"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
+    #print(classInfo) --printing all breaks thonny lol
+#    print(assignmentList)
+#    print(assignmentInfo)
     return template('show_classes', classes = classInfo, assignments = assignmentInfo)
 
 
