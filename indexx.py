@@ -135,18 +135,20 @@ def teacherView():
 
 
 #Displays selected* class info and the student's assignments + grades
-@route('/classList')
-def classList():
+@route('/classList/<classname>')
+def classList(classname):
     db = client.gradebook # database gradebook
-    classInfo = db.classes.find_one({"courseID": "Chem201-01-F2018"},{"teacher": 1, "courseTitle":1, "courseID":1})
+    classInfo = db.classes.find_one({"courseID": classname},{"teacher": 1, "courseTitle":1, "courseID":1})
     #need to show assignment info for that class
-    classList =db.classes.find({"classList":{}},{})
+    classList = list(db.classes.find({"classList":{}},{"classList":1}))
     #assignmentList = list(db.classes.find({"assignmentList" : {}}))
     #assignmentInfo = list(db.assignments.find({"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
+    print("classname",classname) 
+    print("classinfo",classInfo)
     for entry in classList:
-        print(classList)
+        print(entry)
 
-    #return template('show_classList', classes = classInfo, classList = classList)
+    return template('show_classList', classes = classInfo, classList = classList)
     
     
     

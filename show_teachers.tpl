@@ -23,7 +23,7 @@
             <td>{{teachers['name']}}</td>
             
             % for cl in teachers['classes']:
-            <td><a href="http://localhost:8080/classList">{{cl}}</a></td>
+            <td><a href="http://localhost:8080/classList/{{cl}}">{{cl}}</a></td>
             % end
         </tr>
         % end
