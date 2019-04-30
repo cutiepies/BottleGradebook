@@ -14,7 +14,7 @@ def getGrade():
     print(grade)
     return grade
 
-i = 1
+i = 6
 for assignments in range(30):
     ass =   "Chem201-01-F2018-" + str(i)
     #create the assignmentID and update to assignment collection
@@ -24,7 +24,7 @@ for assignments in range(30):
    
     grade = getGrade()
 #    #insert an assignment document into assignment collection
-    assignment= {"studentID": "ai7321lr", "assignmentID": ass, "grade":grade}
+    assignment= {"studentID": "ak7221os", "assignmentID": ass, "grade":grade}
     try:
         db.assignments.insert_one(assignment)
     except Exception as e:

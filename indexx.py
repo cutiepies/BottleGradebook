@@ -104,28 +104,27 @@ def testSearchAssignmentGrades():
     return template('show_assignments', assignments = grades)
 
 #Displays selected* class info and the student's assignments + grades
-@route('/studentClassInfo')
-def studentClassInfo():
+@route('/studentClassInfo/<classname>')
+def studentClassInfo(classname):
+    print(classname)
     db = client.gradebook # database gradebook
-    classInfo = db.classes.find_one({"courseID": "Chem201-01-F2018"},{"teacher": 1, "courseTitle":1, "courseID":1})
+    classInfo = db.classes.find_one({"courseID": classname},{"teacher": 1, "courseTitle":1, "courseID":1})
     #need to show assignment info for that class
-    assignmentList = list(db.classes.find({"assignmentList" : {}}))
-    assignmentInfo = list(db.assignments.find({"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
-    #print(classInfo) --printing all breaks thonny lol
-#    print(assignmentList)
-#    print(assignmentInfo)
+    #assignmentList = list(db.classes.find({"assignmentList" : {}}))
+    assignmentInfo = list(db.assignments.find({"assignmentID": {'$regex':classname},"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
+
     return template('show_classes', classes = classInfo, assignments = assignmentInfo)
 
 
-#View teacher's classes and some info.
-#when teacher logs in - they can view their classes
-# and will be able to click on a class to view and edit assignments
+## View teacher's classes and some info.
+## when teacher logs in - they can view their classes
+## and will be able to click on a class to view and edit assignments
 @route('/teacher')
 def teacherView():
     print(username)
     db = client.gradebook # database gradebook
     teachers = list(db.teacher.find({"teacherID": username},{'_id': 0}))
-    print(teachers)
+    #print(teachers)
 
     if teachers:
         return template('show_teachers', teachers=teachers)
@@ -133,6 +132,23 @@ def teacherView():
         return HTTPResponse(status=204)
 
 
+
+
+#Displays selected* class info and the student's assignments + grades
+@route('/classList')
+def classList():
+    db = client.gradebook # database gradebook
+    classInfo = db.classes.find_one({"courseID": "Chem201-01-F2018"},{"teacher": 1, "courseTitle":1, "courseID":1})
+    #need to show assignment info for that class
+    classList =db.classes.find({"classList":{}},{})
+    #assignmentList = list(db.classes.find({"assignmentList" : {}}))
+    #assignmentInfo = list(db.assignments.find({"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
+    for entry in classList:
+        print(classList)
+
+    #return template('show_classList', classes = classInfo, classList = classList)
+    
+    
     
 
 run(host='localhost', port=8080, debug=True)
