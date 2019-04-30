@@ -140,17 +140,40 @@ def classList(classname):
     db = client.gradebook # database gradebook
     classInfo = db.classes.find_one({"courseID": classname},{"teacher": 1, "courseTitle":1, "courseID":1})
     #need to show assignment info for that class
-    classList = list(db.classes.find({"classList":{}},{"classList":1}))
-    #assignmentList = list(db.classes.find({"assignmentList" : {}}))
+    classList = list(db.classes.find({"courseID":classname},{"classList":1}))
+    assignmentList = list(db.classes.find({"courseID":classname},{ "assignmentList": 1}))
+#    assignmentList = list(db.classes.find({"assignmentList" : {[]}}))
+    print(assignmentList)
     #assignmentInfo = list(db.assignments.find({"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
     print("classname",classname) 
     print("classinfo",classInfo)
-    for entry in classList:
-        print(entry)
+   # for entry in classList:
+ #       print(entry)
 
-    return template('show_classList', classes = classInfo, classList = classList)
+    return template('show_classList', classes = classInfo, classList = classList, assignmentList = assignmentList, classname = classname)
     
+
     
-    
+@route('/studentClassInfo/<classname>/<studentID>')
+def studentClassInfo(classname, studentID):
+    db = client.gradebook
+    classInfo = db.classes.find_one({"courseID": classname},{"teacher": 1, "courseTitle":1, "courseID":1})
+    #need to show assignment info for that class
+    #assignmentList = list(db.classes.find({"assignmentList" : {}}))
+    assignmentInfo = list(db.assignments.find({"assignmentID": {'$regex':classname},"studentID":studentID}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
+
+    return template('show_assignments', classes = classInfo, assignment = assignmentInfo, classname = classname)
+
+#this is a method to add assignments for a class that the teacher has clicked on
+@route('/<classname>/assignments')
+def studentClassInfo(classname):
+    print(classname)
+    db = client.gradebook # database gradebook
+    classInfo = db.classes.find_one({"courseID": classname},{"teacher": 1, "courseTitle":1, "courseID":1})
+    #need to show assignment info for that class
+    #assignmentList = list(db.classes.find({"assignmentList" : {}}))
+    assignmentInfo = list(db.assignments.find({"assignmentID": {'$regex':classname},"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
+
+    return template('show_assignments', classes = classInfo, assignments = assignmentInfo)
 
 run(host='localhost', port=8080, debug=True)
