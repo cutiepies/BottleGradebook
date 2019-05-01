@@ -38,11 +38,6 @@ def do_login():
     else:
         return "<p>Login failed.</p>"
     
-#@get('/login')
-#def getusername():
- #   username = request.query.username
- #   print(username)
-
     
 @route('/students')
 def getstudents():
@@ -62,21 +57,7 @@ def getstudents():
         #return json.dumps(students)
  #   else: 
  #       raise HTTPResponse(status=204)
-@route('/assignments')    
-def getassignments():
 
-    db = client.gradebook
-    asn = list(db.assignments.find({}, {'_id': 0}))
-
-    if asn:
-                return template('show_assignments', assignments=asn)
-    else: 
-        return HTTPResponse(status=204)
-
- #       return json.dumps(asn)
-   # else: 
- #       raise HTTPResponse(status=204)
- 
 @route('/grades')
 def getgrades():
     db = client.gradebook
@@ -90,18 +71,6 @@ def getgrades():
     else:
             return HTTPResponse(status=204)
         
-@route("/user/<username>")
-def user_profile(username):
-    user = mongo.db.users.find_one_or_404({"_id": username})
-    return template('user_profile',
-        user=user)
-
-@route('/test')
-def testSearchAssignmentGrades():
-    db = client.gradebook # database gradebook
-    #need to pass username into here to get the username/studentID for the assignments
-    grades = list(db.assignments.find({'studentID'}))#'studentID':'ak7221os'}))
-    return template('show_assignments', assignments = grades)
 
 #Displays selected* class info and the student's assignments + grades
 @route('/studentClassInfo/<classname>')
@@ -140,14 +109,14 @@ def classList(classname):
     db = client.gradebook # database gradebook
     classInfo = db.classes.find_one({"courseID": classname},{"teacher": 1, "courseTitle":1, "courseID":1})
     #need to show assignment info for that class
-    classList = list(db.classes.find({"classList":{}},{"classList":1}))
-    #assignmentList = list(db.classes.find({"assignmentList" : {}}))
+    classList = list(db.classes.find({"courseID": classname},{"classList":1, "assignmentList":1}))
+    
+    #assignmentList = list(db.classes.find({},{"assignmentList":1}))
     #assignmentInfo = list(db.assignments.find({"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
-    print("classname",classname) 
-    print("classinfo",classInfo)
-    for entry in classList:
-        print(entry)
-
+    
+    
+    print("classList",classList)
+    
     return template('show_classList', classes = classInfo, classList = classList)
     
     
