@@ -1,5 +1,5 @@
 
-from bottle import route, run, HTTPResponse, template, request, get, redirect
+from bottle import route, run, HTTPResponse, template, request, get, redirect, static_file
 from pymongo import MongoClient
 import json, requests, math
 from bottle.ext.mongo import MongoPlugin
@@ -8,6 +8,11 @@ from bson.json_util import dumps
 username =''
 
 client = MongoClient('mongodb+srv://user:user123@cluster0-7i1kc.mongodb.net/test?retryWrites=true')
+#apply css statically 
+@route('/static/<style.css>')
+def server_static(filepath):
+    return static_file(filepath, root='/Users/ak7221os/Documents/GitHub/BottleGradebook/static/')
+
 @route('/login') # or @route('/login')
 def login():
     return 'Welcome to Gradebook. Please login with your studentID to proceed!''''
