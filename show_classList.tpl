@@ -21,6 +21,7 @@
             <td>{{classes['courseID']}}</td>
         </tr>
     </table>
+    <p> <b>Average Grade For Class : </b> {{avgGrade}} </p>
  <!-- this is to display assignments for specific class -->
 <table>
 
@@ -39,13 +40,13 @@
     <table>
 
         <tr>
-          <th>Student ID</th>
+          <th>Students Currently Enrolled: </th>
+    <!-- this is the old one that works   % for classList in classList:
+  classList['classList'] -->
+           % for val in classes['classList']:
+           <td><a href="http://localhost:8080/studentClassInfo/{{classes['courseID']}}/{{val}}">{{classes['courseID']}}/{{val}}</a></td>
+           % end
 
-       % for classList in classList:
-
-           <td>{{classList['classList']}}</td>
-
-       % end
        </tr>
 
     </table>
