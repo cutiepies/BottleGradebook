@@ -14,17 +14,17 @@ def getGrade():
     print(grade)
     return grade
 
-i = 6
+i = 1
 for assignments in range(30):
-    ass =   "Chem201-01-F2018-" + str(i)
+    ass =   "Guitar100-01-F2018-" + str(i)
     #create the assignmentID and update to assignment collection
-    myquery = { "courseID": "Chem201-01-F2018" }
+    myquery = { "courseID": "Guitar100-01-F2018" }
     newvalues = { "$addToSet": { "assignmentList": ass } }
     db.classes.update_one(myquery, newvalues)
    
     grade = getGrade()
 #    #insert an assignment document into assignment collection
-    assignment= {"studentID": "ak7221os", "assignmentID": ass, "grade":grade}
+    assignment= {"studentID": "dc0758sw", "assignmentID": ass, "grade":grade}
     try:
         db.assignments.insert_one(assignment)
     except Exception as e:

@@ -93,7 +93,7 @@ def studentClassInfo(classname):
     print(totalGrade)
     print(avgGrade)
 
-    return template('show_classes', classes = classInfo, assignments = assignmentInfo)
+    return template('show_classes', avgGrade, classes = classInfo, assignments = assignmentInfo)
 
 
 ## View teacher's classes and some info.
@@ -122,16 +122,17 @@ def classList(classname):
     #need to show assignment info for that class
     classList = list(db.classes.find({"courseID":classname},{"classList":1}))
     assignmentList = list(db.classes.find({"courseID":classname},{ "assignmentList": 1}))
-#    assignmentList = list(db.classes.find({"assignmentList" : {[]}}))
-    print(assignmentList)
-    #assignmentInfo = list(db.assignments.find({"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
-    print("classname",classname)
-    print("classinfo",classInfo)
 
-   # for entry in classList:
- #       print(entry)
-
-    return template('show_classList', classes = classInfo, classList = classList, assignmentList = assignmentList, classname = classname)
+    #Calculate class average grade
+    allGrades= list(db.assignments.find({"assignmentID": {'$regex':classname}}, {"_id":0, "grade": 1}))
+    print("allgrades: ",allGrades)
+    #for entries in allGrades:
+    totalGrade = sum(item['grade'] for item in allGrades)
+    val = len(allGrades)
+    avgGrade =totalGrade/val
+    print(totalGrade)
+    print(avgGrade)
+    return template('show_classList', avgGrade, classes = classInfo, classList = classList, assignmentList = assignmentList, classname = classname)
 
 # post method
 @route('/createAssignment', method = 'POST')
