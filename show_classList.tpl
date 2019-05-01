@@ -31,9 +31,10 @@
   % end
 </tr>
 
-
-
 </table>
+<center><form action="/createAssignment" method="post">
+    <button name="addAssignment" type="submit">Add Assignment</button>
+</form></center>
 	<!-- start of students in class list -->
     <table>
 
@@ -46,7 +47,7 @@
 
        % end
        </tr>
-    % end
+
     </table>
 
 

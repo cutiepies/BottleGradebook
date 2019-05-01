@@ -1,7 +1,7 @@
 
 from bottle import route, run, HTTPResponse, template, request, get, redirect
 from pymongo import MongoClient
-import json, requests
+import json, requests, math
 from bottle.ext.mongo import MongoPlugin
 
 from bson.json_util import dumps
@@ -112,6 +112,17 @@ def studentClassInfo(classname):
     #need to show assignment info for that class
     #assignmentList = list(db.classes.find({"assignmentList" : {}}))
     assignmentInfo = list(db.assignments.find({"assignmentID": {'$regex':classname},"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
+    #print(assignmentInfo)
+    
+    allGrades= list(db.assignments.find({"assignmentID": {'$regex':classname},"studentID":username}, {"_id":0, "grade": 1}))
+    print("allgrades: ",allGrades)
+    
+    #for entries in allGrades:
+    totalGrade = sum(item['grade'] for item in allGrades)
+    val = len(allGrades)
+    avgGrade =totalGrade/val
+    print(totalGrade)
+    print(avgGrade)
 
     return template('show_classes', classes = classInfo, assignments = assignmentInfo)
 
@@ -147,11 +158,26 @@ def classList(classname):
     #assignmentInfo = list(db.assignments.find({"studentID":username}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
     print("classname",classname) 
     print("classinfo",classInfo)
+
    # for entry in classList:
  #       print(entry)
 
     return template('show_classList', classes = classInfo, classList = classList, assignmentList = assignmentList, classname = classname)
+  
+# post method
+@route('/createAssignment', method = 'POST')
+def createAssignment(classname):
     
+     classname2 = classList(classname)
+  
+    
+     print(classname2)
+
+
+
+
+
+
 
     
 @route('/studentClassInfo/<classname>/<studentID>')
