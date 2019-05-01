@@ -7,7 +7,7 @@
 </head>
 <body>
 
-  
+
 	<table>
         <tr>
             <th>Professor</th>
@@ -21,16 +21,33 @@
             <td>{{classes['courseID']}}</td>
         </tr>
     </table>
-	
-	
+ <!-- this is to display assignments for specific class -->
+<table>
+
+<tr>
+  <th>Assignment</th>
+  % for assignmentList in assignmentList:
+  <td>{{assignmentList['assignmentList']}}</td>
+  % end
+</tr>
+
+</table>
+<center><form action="/createAssignment" method="post">
+    <button name="addAssignment" type="submit">Add Assignment</button>
+</form></center>
 	<!-- start of students in class list -->
     <table>
+
         <tr>
           <th>Student ID</th>
-        </tr>
+
        % for classList in classList:
-            <td>{{classList['classList']}}</td>
+
+           <td>{{classList['classList']}}</td>
+
        % end
+       </tr>
+
     </table>
 
 
