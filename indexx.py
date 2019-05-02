@@ -169,7 +169,41 @@ def teacherViewStudentAssignments(classname, studentID):
 
     return template('show_classesTeacherView', avgGrade=avgGrade, classes = classInfo, assignments = assignmentInfo)
 
-
+#WORKS!
+#update grade - (ISSUE- since in for loop, only updates the last form item.. lol
+#can give each a button or idk?
+#but at least one edit works to demo.
+@route('/update', method='POST') #@post('/login') # or
+def updateGrades():
+    db = client.gradebook
+    studentID = request.forms.get('studentID')
+    assignmentID =  request.forms.get('assignmentID')
+    grade = request.forms.get('grade')
+    
+    #tried to use class name to allow reroute back to current class.. cant 
+    classname = request.forms.get('classname')
+    print('assignment: ', assignmentID)
+    print('student: ', studentID)
+    print('newgrade: ', grade)
+    print('This is grade', grade)
+    print('classname', classname)
+    
+    #stupid form makes grade string, need to convert back to int for database
+    grade2 = int(grade)
+    print(grade2)
+    #then will want to edit database to reflect the changes... ik in for loop so maybe wont work
+    ## updates document ##
+    
+    myquery = { "assignmentID":assignmentID,"studentID": studentID }
+    newvalues = { "$set": { "grade": grade2 } }
+    try:
+        db.assignments.update_one(myquery, newvalues)
+    except Exception as e:
+        print ("insert failed:", e)
+    
+    
+    return "<p>Your grades have been updated.</p>", redirect('/teacher')
+   
 #
 #@route('/studentClassInfo/<classname>/<studentID>')
 #def studentClassInfo(classname, studentID):

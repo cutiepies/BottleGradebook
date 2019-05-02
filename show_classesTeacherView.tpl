@@ -8,6 +8,7 @@
 </head>
 <body>
 
+<form action="/update" method="post">
     <table>
 
         <tr>
@@ -23,16 +24,15 @@
         <tr>
             <td>{{classes['teacher']}}</td>
             <td>{{classes['courseTitle']}}</td>
-            <td>{{classes['courseID']}}</td>
+            <td><input type="text" name="classname" value="{{classes['courseID']}}" readonly></td>
         </tr>
 
 
     </table>
     <p> <b>Average Grade</b> {{avgGrade}} </p>
 	
-	<center><form action="/update" method="post">
     <button name="update" type="submit">Save Updates</button>
-</form></center>
+
 	
 <!-- start of assignments -->
     <table>
@@ -46,13 +46,13 @@
         </tr>
         % for assignments in assignments:
         <tr>
-            <td>{{assignments['studentID']}}</td>
-            <td>{{assignments['assignmentID']}}</td>
-            <td contenteditable="true">{{assignments['grade']}}</td>
+            <td><input type="text" name="studentID" value="{{assignments['studentID']}}" readonly></td>
+            <td><input type="text" name="assignmentID" value="{{assignments['assignmentID']}}" readonly></td>
+            <td><input type=number name="grade" min="0" max="100"value="{{assignments['grade']}}"></td>
         </tr>
         % end
 
     </table>
-
+</form>
 </body>
 </html>
