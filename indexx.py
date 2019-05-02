@@ -130,8 +130,8 @@ def classList(classname):
 
     #Calculate class average grade
     allGrades= list(db.assignments.find({"assignmentID": {'$regex':classname}}, {"_id":0, "grade": 1}))
-    indexgrades = list(db.assignments.explain().find({"assignmentID": {'$regex':classname}}, {"_id":0, "grade": 1}))
-    print(grades)
+    #indexgrades = list(db.assignments.explain().find({"assignmentID": {'$regex':classname}}, {"_id":0, "grade": 1}))
+    
     #print("allgrades: ",allGrades)
     #for entries in allGrades:
     totalGrade = sum(item['grade'] for item in allGrades)

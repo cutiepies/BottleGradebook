@@ -29,8 +29,9 @@
 <tr>
   <th>Assignment</th>
   % for assignmentList in assignmentList:
-  <td>{{assignmentList['assignmentList']}}</td>
-  % end
+	<td>{{assignmentList['assignmentList']}}</td>
+  
+% end
 </tr>
 
 </table>
@@ -39,16 +40,15 @@
 </form></center>
 	<!-- start of students in class list -->
     <table>
-
-        <tr>
-          <th>Students Currently Enrolled: </th>
-    <!-- this is the old one that works   % for classList in classList:
-  classList['classList'] -->
-           % for val in classes['classList']:
-           <td><a href="http://localhost:8080/studentClassInfo/{{classes['courseID']}}/{{val}}">{{classes['courseID']}}/{{val}}</a></td>
-           % end
-
-       </tr>
+<th>Students Currently Enrolled: </th>
+        
+		% for classList in classList:
+			<br>
+  			% for student in classList['classList']:
+			<tr><td><a href="http://localhost:8080/studentClassInfo/{{student}}">{{student}}</a></td></tr>
+        
+		% end
+       
 
     </table>
 
