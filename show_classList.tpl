@@ -45,7 +45,7 @@
 		% for classList in classList:
 			<br>
   			% for student in classList['classList']:
-			<tr><td><a href="http://localhost:8080/studentClassInfo/{{student}}">{{student}}</a></td></tr>
+			<tr><td><a href="http://localhost:8080/teacherViewStudentAssignments/{{classname}}/{{student}}">{{student}}</a></td></tr>
         
 		% end
        
