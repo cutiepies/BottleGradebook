@@ -167,7 +167,7 @@ def teacherViewStudentAssignments(classname, studentID):
     #print(totalGrade)
     #print(avgGrade)
 
-    return template('show_classes', avgGrade=avgGrade, classes = classInfo, assignments = assignmentInfo)
+    return template('show_classesTeacherView', avgGrade=avgGrade, classes = classInfo, assignments = assignmentInfo)
 
 
 #
