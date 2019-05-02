@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<link rel='stylesheet' type='text/css' href='/static/style.css'>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +22,7 @@
             <td>{{teachers['email']}}</td>
 
             <td>{{teachers['name']}}</td>
-            
+
             % for cl in teachers['classes']:
             <td><a href="http://localhost:8080/classList/{{cl}}">{{cl}}</a></td>
             % end

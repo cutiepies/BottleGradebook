@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<link rel='stylesheet' type='text/css' href='/static/style.css'>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,6 +28,7 @@
 
 
     </table>
+    <p> <b>Average Grade</b> {{avgGrade}} </p>
 <!-- start of assignments -->
     <table>
 
@@ -35,6 +37,7 @@
           <th>Student ID</th>
           <th>Assignment</th>
           <th>Grade</th>
+
 
 
 

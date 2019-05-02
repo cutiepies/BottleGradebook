@@ -1,5 +1,5 @@
 
-from bottle import route, run, HTTPResponse, template, request, get, redirect
+from bottle import route, run, HTTPResponse, template, request, get, redirect, static_file
 from pymongo import MongoClient
 import json, requests, math
 from bottle.ext.mongo import MongoPlugin
@@ -8,6 +8,11 @@ from bson.json_util import dumps
 username =''
 
 client = MongoClient('mongodb+srv://user:user123@cluster0-7i1kc.mongodb.net/test?retryWrites=true')
+#apply css statically
+@route('/static/<style.css>')
+def server_static(filepath):
+    return static_file(filepath, root='/Users/ak7221os/Documents/GitHub/BottleGradebook/static/')
+
 @route('/login') # or @route('/login')
 def login():
     return 'Welcome to Gradebook. Please login with your studentID to proceed!''''
@@ -93,7 +98,7 @@ def studentClassInfo(classname):
     print(totalGrade)
     print(avgGrade)
 
-    return template('show_classes', avgGrade, classes = classInfo, assignments = assignmentInfo)
+    return template('show_classes', avgGrade=avgGrade, classes = classInfo, assignments = assignmentInfo)
 
 
 ## View teacher's classes and some info.
@@ -132,9 +137,9 @@ def classList(classname):
     totalGrade = sum(item['grade'] for item in allGrades)
     val = len(allGrades)
     avgGrade =totalGrade/val
-    #print(totalGrade)
-    #print(avgGrade)
-    return template('show_classList', avgGrade, classes = classInfo, classList = classList, assignmentList = assignmentList, classname = classname)
+    print(totalGrade)
+    print(avgGrade)
+    return template('show_classList', avgGrade=avgGrade, classes = classInfo, classList = classList, assignmentList = assignmentList, classname = classname)
 
 # post method
 @route('/createAssignment', method = 'POST')
@@ -148,7 +153,28 @@ def createAssignment(classname):
 
 
 
+#Displays selected* class info and the student's assignments + grades
+@route('/studentClassInfo/<classname>/<studentID>')
+def studentClassInfo(classname, studentID):
+    print(classname)
+    db = client.gradebook # database gradebook
+    classInfo = db.classes.find_one({"courseID": classname},{"teacher": 1, "courseTitle":1, "courseID":1})
+    #need to show assignment info for that class
+    #assignmentList = list(db.classes.find({"assignmentList" : {}}))
+    assignmentInfo = list(db.assignments.find({"assignmentID": {'$regex':classname},"studentID":studentID}, {"studentID": 1, "assignmentID": 1, "grade": 1}))
+    #print(assignmentInfo)
 
+    allGrades= list(db.assignments.find({"assignmentID": {'$regex':classname},"studentID": studentID}, {"_id":0, "grade": 1}))
+    print("allgrades: ",allGrades)
+
+    #for entries in allGrades:
+    totalGrade = sum(item['grade'] for item in allGrades)
+    val = len(allGrades)
+    avgGrade =totalGrade/val
+    print(totalGrade)
+    print(avgGrade)
+
+    return template('show_classes', avgGrade=avgGrade, classes = classInfo, assignments = assignmentInfo)
 
 
 
