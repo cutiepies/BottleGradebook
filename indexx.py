@@ -125,13 +125,15 @@ def classList(classname):
 
     #Calculate class average grade
     allGrades= list(db.assignments.find({"assignmentID": {'$regex':classname}}, {"_id":0, "grade": 1}))
-    print("allgrades: ",allGrades)
+    indexgrades = list(db.assignments.explain().find({"assignmentID": {'$regex':classname}}, {"_id":0, "grade": 1}))
+    print(grades)
+    #print("allgrades: ",allGrades)
     #for entries in allGrades:
     totalGrade = sum(item['grade'] for item in allGrades)
     val = len(allGrades)
     avgGrade =totalGrade/val
-    print(totalGrade)
-    print(avgGrade)
+    #print(totalGrade)
+    #print(avgGrade)
     return template('show_classList', avgGrade, classes = classInfo, classList = classList, assignmentList = assignmentList, classname = classname)
 
 # post method
