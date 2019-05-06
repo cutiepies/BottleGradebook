@@ -6,7 +6,7 @@ table {
 /* Default Table Style */
 table {
   color: #333;
-  background: white;
+  background-color: pink;
   border: 1px solid grey;
   font-family: Tahoma, Geneva, sans-serif;
 font-size: 13px;
@@ -35,7 +35,7 @@ table td {
 }
 {
   color: #333;
-  background: white;
+  background-color: powderblue;
   border: 1px solid grey;
   font-family: Tahoma, Geneva, sans-serif;
 font-size: 13px;
