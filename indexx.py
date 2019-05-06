@@ -133,15 +133,6 @@ def classList(classname):
     #print(avgGrade)
     return template('show_classList', avgGrade=avgGrade, classes = classInfo, classList = classList, assignmentList = assignmentList, classname = classname)
 
-# post method
-@route('/createAssignment', method = 'POST')
-def createAssignment(classname):
-
-     classname2 = classList(classname)
-
-
-     print(classname2)
-
 
 
 #WORKS - teacher views assignments for specific student
@@ -204,6 +195,36 @@ def updateGrades():
     
     return "<p>Your grades have been updated.</p>", redirect('/teacher')
    
+
+@route('/createAssignment', method='POST') #@post('/login') # or
+def createAssignment():
+    db = client.gradebook
+  
+    #classname =  request.forms.get('classname')
+    assignmentID = request.forms.get('assignmentID')
+    classname =  request.forms.get('classname')
+    
+    print(assignmentID)
+    print(classname) 
+       
+    assignmentNum = assignmentID[-2:]
+    assignmentNum = int(assignmentNum)
+    print(assignmentNum)
+    assignmentNum += 1
+    
+    addAssignment = classname + '-' + str(assignmentNum)
+    print(addAssignment)
+    
+    myquery = {"courseID": classname}
+    newvalues = { "$addToSet": { "assignmentList": addAssignment } }
+
+    try:
+        db.classes.update_one(myquery, newvalues)
+    except Exception as e:
+        print ("insert failed:", e)
+    
+    return "<p>Your assignment list has been updated.</p>", redirect('/teacher')
+
 #
 #@route('/studentClassInfo/<classname>/<studentID>')
 #def studentClassInfo(classname, studentID):

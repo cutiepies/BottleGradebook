@@ -31,7 +31,7 @@
     </table>
     <p> <b>Average Grade</b> {{avgGrade}} </p>
 	
-    <button name="update" type="submit">Save Updates</button>
+    
 
 	
 <!-- start of assignments -->
@@ -49,6 +49,7 @@
             <td><input type="text" name="studentID" value="{{assignments['studentID']}}" readonly></td>
             <td><input type="text" name="assignmentID" value="{{assignments['assignmentID']}}" readonly></td>
             <td><input type=number name="grade" min="0" max="100"value="{{assignments['grade']}}"></td>
+			<td><button name="update" type="submit">Save Update</button></td>
         </tr>
         % end
 

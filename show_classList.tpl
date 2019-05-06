@@ -8,7 +8,7 @@
 </head>
 <body>
 
-
+<form action="/createAssignment" method="post">
 	<table>
         <tr>
             <th>Professor</th>
@@ -19,25 +19,26 @@
         <tr>
             <td>{{classes['teacher']}}</td>
             <td>{{classes['courseTitle']}}</td>
-            <td>{{classes['courseID']}}</td>
+            <td><input type="text" name="classname" value="{{classes['courseID']}}" readonly></td>
         </tr>
     </table>
     <p> <b>Average Grade For Class : </b> {{avgGrade}} </p>
  <!-- this is to display assignments for specific class -->
 <table>
 
-<tr>
+
   <th>Assignment</th>
   % for assignmentList in assignmentList:
-	<td>{{assignmentList['assignmentList']}}</td>
-  
+	<br>
+	% for assignment in assignmentList['assignmentList']:
+	<tr><td><input type="text" name="assignmentID" value="{{assignment}}" readonly></td></tr>
 % end
-</tr>
+
 
 </table>
-<center><form action="/createAssignment" method="post">
+<center>
     <button name="addAssignment" type="submit">Add Assignment</button>
-</form></center>
+</center></form>
 	<!-- start of students in class list -->
     <table>
 <th>Students Currently Enrolled: </th>
