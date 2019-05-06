@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel='stylesheet' type='text/css' href='/static/style.css'>
+<link rel='stylesheet' type='text/css' href='/css/style.css'>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,7 +30,7 @@
   <th>Assignment</th>
   % for assignmentList in assignmentList:
 	<td>{{assignmentList['assignmentList']}}</td>
-  
+
 % end
 </tr>
 
@@ -41,14 +41,14 @@
 	<!-- start of students in class list -->
     <table>
 <th>Students Currently Enrolled: </th>
-        
+
 		% for classList in classList:
 			<br>
   			% for student in classList['classList']:
 			<tr><td><a href="http://localhost:8080/teacherViewStudentAssignments/{{classname}}/{{student}}">{{student}}</a></td></tr>
-        
+
 		% end
-       
+
 
     </table>
 

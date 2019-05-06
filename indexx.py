@@ -9,9 +9,9 @@ username =''
 
 client = MongoClient('mongodb+srv://user:user123@cluster0-7i1kc.mongodb.net/test?retryWrites=true')
 #apply css statically
-@route('/static/<style.css>')
+@route('/css/<filepath>')
 def server_static(filepath):
-    return static_file(filepath, root='/Users/ak7221os/Documents/GitHub/BottleGradebook/static/')
+    return static_file(filepath, root='/static/css')
 
 @route('/login') # or @route('/login')
 def login():

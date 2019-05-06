@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel='stylesheet' type='text/css' href='/static/style.css'>
+<link rel='stylesheet' type='text/css' href='/css/style.css'>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,10 +30,10 @@
 
     </table>
     <p> <b>Average Grade</b> {{avgGrade}} </p>
-	
+
     <button name="update" type="submit">Save Updates</button>
 
-	
+
 <!-- start of assignments -->
     <table>
 
