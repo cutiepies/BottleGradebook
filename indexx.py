@@ -15,9 +15,9 @@ def server_static(filepath):
 
 @route('/login') # or @route('/login')
 def login():
-    return 'Welcome to Gradebook. Please login with your studentID to proceed!''''
+    return 'Welcome to Gradebook. Please login with your ID to proceed!''''
     <form action="/login" method="post">
-            StudentID: <input name="studentID" type="text" />
+            Teacher/StudentID: <input name="studentID" type="text" />
             Password: <input name="password" type="password" />
             <input value="Login" type="submit" />
         </form>
